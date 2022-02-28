@@ -1,1 +1,0 @@
-console.log("js added to html");
