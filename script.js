@@ -2,16 +2,23 @@
 const searchPhone = () => {
   const searchFeild = document.getElementById("search-feild");
   const searchFeildValue = searchFeild.value;
+
   // console.log(searchFeildValue);
   searchFeild.value = "";
   const url = ` https://openapi.programming-hero.com/api/phones?search=${searchFeildValue}`;
   // console.log(url);
   fetch(url)
     .then((res) => res.json())
-    .then((data) => displaySearchedPhone(data.data));
+    .then((data) => {
+      if (searchFeildValue == "" || data.data == 0) {
+        alert("Enter phone name to search");
+      } else {
+        displaySearchedPhone(data.data);
+      }
+    });
 };
 const displaySearchedPhone = (data) => {
-  // console.log(data);
+//   console.log(data);
   const searchResult = document.getElementById("search-result");
   searchResult.textContent = "";
   data.forEach((data) => {
