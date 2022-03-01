@@ -11,17 +11,18 @@ const searchPhone = () => {
     .then((res) => res.json())
     .then((data) => {
       if (searchFeildValue == "" || data.data == 0) {
-        alert("Enter phone name to search");
+        alert("Enter valid phone name to search");
       } else {
         displaySearchedPhone(data.data);
       }
     });
 };
 const displaySearchedPhone = (data) => {
-//   console.log(data);
+  console.log(data);
   const searchResult = document.getElementById("search-result");
   searchResult.textContent = "";
-  data.forEach((data) => {
+  const len = data.length;
+  data.slice(0, 20).forEach((data) => {
     const col = document.createElement("div");
     col.classList.add("col");
     col.innerHTML = `<div class="col">
@@ -30,10 +31,15 @@ const displaySearchedPhone = (data) => {
       <div class="card-body">
         <h5 class="card-title">${data.phone_name}</h5>
         <h6 class="card-title">Brand : ${data.brand}</h6>
-       <button class="btn btn-warning mt-2">Details</button>
+       <button onclick="showDetails('${data.slug}')" class="btn btn-warning mt-2">Details</button>
       </div>
     </div>
   </div>`;
+
     searchResult.appendChild(col);
   });
 };
+//details button
+const showDetails=(data)=>{
+    console.log(data);
+}
