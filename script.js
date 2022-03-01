@@ -4,15 +4,12 @@ const searchPhone = () => {
   const searchFeildValue = searchFeild.value;
   const phoneDetilsDiv = document.getElementById("phone-details-click");
   phoneDetilsDiv.innerHTML = "";
-  // console.log(searchFeildValue);
   searchFeild.value = "";
   const url = ` https://openapi.programming-hero.com/api/phones?search=${searchFeildValue}`;
-  // console.log(url);
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
       if (searchFeildValue == "" || data.data == 0) {
-        // alert("Enter valid phone name to search");
         document.getElementById(
           "search-result"
         ).innerHTML = `<p class="text-danger mx-auto">Nothing Found.Search Valid Phones Only</p>`;
@@ -22,14 +19,33 @@ const searchPhone = () => {
     });
 };
 const displaySearchedPhone = (data) => {
-  //   console.log(data);
   const searchResult = document.getElementById("search-result");
   searchResult.textContent = "";
   const len = data.length;
-  data.slice(0, 20).forEach((data) => {
-    const col = document.createElement("div");
-    col.classList.add("col");
-    col.innerHTML = `<div class="col">
+  if (len <= 20) {
+    data.slice(0, 20).forEach((data) => {
+      showPhone(data);
+    });
+  } else {
+    data.slice(0, 20).forEach((data) => {
+      showPhone(data);
+    });
+    const showMore = document.getElementById("show-more");
+    showMore.style.display = "block";
+    showMore.addEventListener("click", function () {
+      data.slice(21, len).forEach((data) => {
+        showPhone(data);
+        showMore.style.display = "none";
+      });
+    });
+  }
+};
+//function for showing phone after search
+const showPhone = (data) => {
+  const searchResult = document.getElementById("search-result");
+  const col = document.createElement("div");
+  col.classList.add("col");
+  col.innerHTML = `<div id="searched-card" >
     <div class="card">
       <img src="${data.image}" class="card-img-top w-50 mt-3 mx-auto" alt="...">
       <div class="card-body">
@@ -39,33 +55,24 @@ const displaySearchedPhone = (data) => {
       </div>
     </div>
   </div>`;
-
-    searchResult.appendChild(col);
-  });
+  searchResult.appendChild(col);
 };
-//details button
+
+//function for details button
 const showDetails = (data) => {
   fetch(` https://openapi.programming-hero.com/api/phone/${data}`)
     .then((res) => res.json())
     .then((data) => showPhoneDetails(data));
 };
+//function for show phone details
 const showPhoneDetails = (data) => {
   const phoneDetailsClick = document.getElementById("phone-details-click");
-  //   phoneDetailsClick.textContent = "";
   const div = document.createElement("div");
   div.classList.add("card");
   if (data.data.releaseDate == "") {
     data.data.releaseDate = "Release date not found";
   }
-  //   if(data.data==''){
-  //       data.data.name="Empty";
-  //       data.data.releaseDate="Empty";
-  //       data.data.mainFeatures.storage="Empty";
-  //       data.data.mainFeatures.displaySize="Empty";
-  //       data.data.mainFeatures.chipSet="Empty";
-  //       data.data.mainFeatures.memory="Empty";
 
-  //   }
   div.innerHTML = ` 
     <img src="${data.data.image}" class="card-img-top w-25 mt-2 mx-auto"  alt="...">
     <div class="card-body">
@@ -85,8 +92,7 @@ const showPhoneDetails = (data) => {
         <p>NFC : ${data.data?.others?.NFC}</p>
         <p>Radio : ${data.data?.others?.Radio}</p>
         <p>USB : ${data.data?.others?.USB}</p>
-   
-  </div>`;
-
+  </div>
+  `;
   phoneDetailsClick.appendChild(div);
 };
