@@ -69,29 +69,32 @@ const showPhoneDetails = (data) => {
   const phoneDetailsClick = document.getElementById("phone-details-click");
   const div = document.createElement("div");
   div.classList.add("card");
-  if (data.data.releaseDate == "") {
-    data.data.releaseDate = "Release date not found";
-  }
 
   div.innerHTML = ` 
-    <img src="${data.data.image}" class="card-img-top w-25 mt-2 mx-auto"  alt="...">
+    <img src="${
+      data.data.image
+    }" class="card-img-top w-25 mt-2 mx-auto"  alt="...">
     <div class="card-body">
-        <h5 class="card-title">${data.data?.name}</h5>
-        <p class="card-text">${data.data?.releaseDate}</p>
+        <h5 class="card-title">${data.data?.name || "Not found"}</h5>
+        <p class="card-text">${
+          data.data?.releaseDate || "Release date not found"
+        }</p>
         <h6>Main Features</h6>
-        <p>Storage : ${data.data?.mainFeatures?.storage}</p>
-        <p>Display Size : ${data.data?.mainFeatures?.displaySize}</p>
-        <p>Chip Set : ${data.data?.mainFeatures?.chipSet}</p>
-        <p>Memory : ${data.data?.mainFeatures?.memory}</p>
+        <p>Storage : ${data.data?.mainFeatures?.storage || "Not found"}</p>
+        <p>Display Size : ${
+          data.data?.mainFeatures?.displaySize || "Not found"
+        }</p>
+        <p>Chip Set : ${data.data?.mainFeatures?.chipSet || "Not found"}</p>
+        <p>Memory : ${data.data?.mainFeatures?.memory || "Not found"}</p>
         <h6>Sensors</h6>
-        <p>${data.data?.mainFeatures?.sensors}</p>
+        <p>${data.data?.mainFeatures?.sensors || "Not found"}</p>
         <h6>Others Information</h6>
-        <p>WLAN : ${data.data?.others?.WLAN}</p>
-        <p>Bluetooth : ${data.data?.others?.Bluetooth}</p>
-        <p>GPS : ${data.data?.others?.GPS}</p>
-        <p>NFC : ${data.data?.others?.NFC}</p>
-        <p>Radio : ${data.data?.others?.Radio}</p>
-        <p>USB : ${data.data?.others?.USB}</p>
+        <p>WLAN : ${data.data?.others?.WLAN || "Not Specified"}</p>
+        <p>Bluetooth : ${data.data?.others?.Bluetooth || "Not Specified"}</p>
+        <p>GPS : ${data.data?.others?.GPS || "Not Specified"}</p>
+        <p>NFC : ${data.data?.others?.NFC || "Not Specified"}</p>
+        <p>Radio : ${data.data?.others?.Radio || "Not Specified"}</p>
+        <p>USB : ${data.data?.others?.USB || "Not Specified"}</p>
   </div>
   `;
   phoneDetailsClick.appendChild(div);
